@@ -15,9 +15,9 @@ public class StartUI : UIBase
         }
     }
 
-    //private void OnClickStartButton()
-    //{
-    //    UIManager.Instance.CreateModeUI();
-    //}
+    private void OnClickStartButton()
+    {
+        Destroy(gameObject);
+    }
 
 }

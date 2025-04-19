@@ -18,15 +18,7 @@ public class UIManager : MonoSingletone<UIManager>
     private Dictionary<string, UIBase> _container = new Dictionary<string, UIBase>();
 
     private string _uiPath = "Prefab/";
-    public void CreateUI<T>() where T : UIBase
-    {
-        GameObject resGO = Resources.Load<GameObject>(_uiPath + typeof(T).ToString());
-        GameObject sceanGO = Instantiate(resGO, _canvasTrasn, false);
-        T comp = sceanGO.GetComponent<T>();
-
-        //_container.Add(typeof(T).ToString(), comp);
-
-    }
+    
 
     private void Awake()
     {
@@ -42,15 +34,22 @@ public class UIManager : MonoSingletone<UIManager>
         }
     }
 
+    public void CreateUI<T>() where T : UIBase
+    {
+        GameObject resGO = Resources.Load<GameObject>(_uiPath + typeof(T).ToString());
+        GameObject sceanGO = Instantiate(resGO, _canvasTrasn, false);
+        T comp = sceanGO.GetComponent<T>();
+        _container.Add(typeof(T).ToString(), comp);
+    }
 
     public void CreateStartUI()
     {
         // ModeUI 프리팹을 리소스를 로드해서, Instantiate한다. 
-        GameObject resGO = Resources.Load<GameObject>("Prefab/StartUI");
-        GameObject sceanGO = Instantiate(resGO, _canvasTrasn, false);
-        StartUI comp = sceanGO.GetComponent<StartUI>();
+        //GameObject resGO = Resources.Load<GameObject>("Prefab/StartUI");
+        //GameObject sceanGO = Instantiate(resGO, _canvasTrasn, false);
+        //StartUI comp = sceanGO.GetComponent<StartUI>();
 
-        _container.Add(typeof(StartUI).ToString(), comp);
+        //_container.Add(typeof(StartUI).ToString(), comp);
     }
 
     //모드 UI만드는 코드를 작성해서 StartUI버튼이 눌렸을때
@@ -69,14 +68,8 @@ public class UIManager : MonoSingletone<UIManager>
 
         _container.Add(typeof(ModeUI).ToString(), uiComp);
 
-        UIBase strtui2;
-        _container.TryGetValue("ModeUI", out strtui2);
-
         uiComp.AddTimeClickEvent(GameManager.Instance.OnClickTimeAttackMode);
-        Debug.Log("addtimeclickevent");
         uiComp.AddTimeClickEvent(RemoveModeUI);
-
-
     }
 
     private void RemoveModeUI()

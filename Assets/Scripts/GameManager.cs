@@ -61,11 +61,10 @@ public class GameManager : MonoSingletone<GameManager>
 
     public void OnClickStartButton()
     {
-        //UIManager.Instance.CreateModeUI();
-        UIManager.Instance.CreateUI<ModeUI>();
+        UIManager.Instance.CreateModeUI();
 
-
-        Destroy(gameObject);
+        // Ã£¾Ò´Ù !!
+        //Destroy(gameObject);
     }
 
     public void OnClickTimeAttackMode()

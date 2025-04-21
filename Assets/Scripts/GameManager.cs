@@ -1,11 +1,8 @@
-using System;
 using System.Collections;
-using System.Net.NetworkInformation;
-using Mono.Cecil;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoSingletone<GameManager>
 {
@@ -17,51 +14,17 @@ public class GameManager : MonoSingletone<GameManager>
     {
         var temp = Instance;
 
-        //UIManager.Instance.CreateStartUI();
         UIManager.Instance.CreateUI<StartUI>();
-
-        //StartCoroutine(TimeCheck());
     }
-
-    private UnityAction _onEventAction;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log("class Type : " + typeof(StartUI));
-        }
-    }
-
-    private void ShowLogOne()
-    {
-        Debug.Log("ShowLogOne");
-    }
-
-    private void ShowLogTwo()
-    {
-        Debug.Log("ShowLogTwo");
-
-    }
-
-    //private void OnClickStartButton()
-    //{
-    //    //_startButton.gameObject.SetActive(false);       
-
-    //    Debug.Log("OnClickStartButton");
-    //    // ModeUI 프리팹을 리소스를 로드해서, Instantiate한다. 
-    //    GameObject resGO = Resources.Load<GameObject>("Prefab/ModeUI");
-    //    Debug.Log("resGO : " + resGO);
-
-    //    GameObject sceanGO = Instantiate(resGO, _canvasTrasn, false);
-    //    ModeUI uiComp = sceanGO.GetComponent<ModeUI>();
-    //    uiComp.AddTimeClickEvent(OnClickTimeAttackMode);
-    //    uiComp.AddStageClickEvent(OnClickStageMode);
-    //}
 
     public void OnClickStartButton()
     {
-        UIManager.Instance.CreateModeUI();
+        UIManager.Instance.RemoveUI<StartUI>();
+        UIManager.Instance.CreateUI<ModeUI>();
+
+        ModeUI modeUI = UIManager.Instance.GetUI<ModeUI>();
+        modeUI.AddTimeClickEvent(OnClickTimeAttackMode);
+        modeUI.AddTimeClickEvent(UIManager.Instance.RemoveUI<ModeUI>);
 
         // 찾았다 !!
         //Destroy(gameObject);
@@ -69,8 +32,6 @@ public class GameManager : MonoSingletone<GameManager>
 
     public void OnClickTimeAttackMode()
     {
-        Debug.Log("OnClickTimeAttackMode");
-
         StartCoroutine(LoadSceneAsync("GameScene"));
     }
 
@@ -93,10 +54,9 @@ public class GameManager : MonoSingletone<GameManager>
         GameObject gongGo = Instantiate(gongRes);
         gongGo.transform.position = new Vector3(0, 6, 0);
 
-
         Transform tr = realGO.transform;
 
-        UIManager.Instance.CreateScoreUI();
+        UIManager.Instance.CreateUI<ScoreUI>();
     }
 
     public void CreateEffect(Vector3 pos)

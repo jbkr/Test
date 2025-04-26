@@ -10,6 +10,8 @@ public class GameManager : MonoSingletone<GameManager>
     [SerializeField]
     private Transform _canvasTrasn; // 씬이 바뀌면 사라짐 
 
+    public bool _isPlay = false;
+
     void Start()
     {
         var temp = Instance;
@@ -44,6 +46,7 @@ public class GameManager : MonoSingletone<GameManager>
         GameObject resGO = Resources.Load<GameObject>("Prefab/PangPlayer");
         GameObject realGO = Instantiate(resGO);
         realGO.transform.position = new Vector3(0, -2.66f, 0);
+        _isPlay = true;
 
         // 배경도 로드해야겠다.
         GameObject bottomRes = Resources.Load<GameObject>("Prefab/Bottom");

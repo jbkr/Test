@@ -9,9 +9,16 @@ public class PangPlayer : MonoBehaviour
         HITTED, // 
     }
 
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    Debug.Log("player hitted");
+    //    _currentState = STATE.HITTED;
+    //    Destroy(gameObject);
+    //}
+
     // 현재 가지고 있는 스프라이트중 
     // 몇번째 스프라이트를 출력중인가를 알아야하니까 
-    private int _currentSpriteIndex; 
+    private int _currentSpriteIndex;
 
     [SerializeField]
     private Sprite[] IdleSprites;
@@ -37,7 +44,7 @@ public class PangPlayer : MonoBehaviour
     private void MoveInput()
     {
         if (Input.GetKey(KeyCode.LeftArrow))
-        {   
+        {
             transform.position += Vector3.left * Time.deltaTime * _speed;
             _currentState = STATE.MOVE;
             _render.flipX = true;
@@ -56,12 +63,12 @@ public class PangPlayer : MonoBehaviour
 
 
     private void IDLE_Action()
-    {        
+    {
         MoveInput();
 
         _accTime += Time.deltaTime;
 
-        if(_accTime >= 0.2f)
+        if (_accTime >= 0.2f)
         {
             // 여기는 Update에서 계속들어올꺼야 
             _currentSpriteIndex++;
@@ -73,8 +80,8 @@ public class PangPlayer : MonoBehaviour
 
             _accTime = 0;
         }
-        
-       
+
+
     }
 
     private void Move_Action()
@@ -96,12 +103,12 @@ public class PangPlayer : MonoBehaviour
 
             _accTime = 0;
         }
-        
+
     }
 
     private void HITTED_Action()
     {
-
+        GameManager.Instance._isPlay = false;
     }
 
     // Update is called once per frame
@@ -141,7 +148,7 @@ public class PangPlayer : MonoBehaviour
 
         if (_accTime >= _changeTime)
         {
-            if(_render != null)
+            if (_render != null)
             {
                 if (_aniIndex >= sprites.Length)
                     _aniIndex = 0;

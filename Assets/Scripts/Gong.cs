@@ -1,3 +1,4 @@
+using Unity.XR.Oculus.Input;
 using UnityEngine;
 
 public class Gong : MonoBehaviour
@@ -107,6 +108,15 @@ public class Gong : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("OnTriggerEnter2D : " + other.gameObject.name);
+
+        // 비트연산
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            GameManager.Instance._isPlay = false;
+            Debug.Log("isPlay false");
+            // Todo 종료 UI
+            UIManager.Instance.CreateUI<ResultUI>();
+        }
 
         GameManager manager = GameManager.Instance;
 
